@@ -12,6 +12,8 @@ LON = 5
 LAT = 6
 
 PASSWORD = 'liverpool'
+TRACEROUTE = '/usr/local/bin/paris-traceroute'
+GEOLITECITY = 'data/GeoLiteCity.dat'
 
 def read_dump(target):
     """DEPRECATED"""
@@ -27,7 +29,7 @@ def read_dump(target):
 def execute_traceroute(target):
     """Return a list of hops from traceroute command."""
     p = subprocess.Popen(
-            ['sudo', 'paris-traceroute', target], 
+            ['sudo', TRACEROUTE, target], 
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE, 
             shell=False)
@@ -39,7 +41,7 @@ def execute_traceroute(target):
 def normalize(list_hops):
     """Extract information from traceroute line per line."""
     # get geoip instance
-    gi = GeoIP.open('data/GeoLiteCity.dat', GeoIP.GEOIP_STANDARD)
+    gi = GeoIP.open(GEOLITECITY, GeoIP.GEOIP_STANDARD)
 
     normalized_hops = []
     for hop in list_hops:
